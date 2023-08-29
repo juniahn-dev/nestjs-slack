@@ -8,7 +8,6 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
   await app.listen(port);
   console.log(`Listening to port ${port}`);
-  console.log('init test');
 
   if (module.hot) {
     module.hot.accept();
