@@ -1,26 +1,47 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { JoinRequestDto } from './dto/join.request.dto';
 import { UsersService } from './users.service';
+import {
+  ApiBadGatewayResponse,
+  ApiBadRequestResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { UserDto } from 'src/common/dto/user.dto';
 
+@ApiTags('USER')
 @Controller('api/users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  @ApiResponse({
+    type: UserDto,
+  })
+  @ApiOperation({ summary: 'View my information' })
   @Get()
   getUsers(@Req() req) {
     return req.users;
   }
 
+  @ApiOperation({ summary: 'Sign up' })
   @Post()
   postUsers(@Body() body: JoinRequestDto) {
     this.usersService.postUsers(body.email, body.nickname, body.password);
   }
 
+  @ApiOkResponse({
+    type: UserDto,
+    description: 'Success',
+  })
+  @ApiOperation({ summary: 'Login' })
   @Post('login')
   login(@Req() req) {
     return req.users;
   }
 
+  @ApiOperation({ summary: 'Logout' })
   @Post('logout')
   logout(@Req() req, @Res() res) {
     req.logout();
