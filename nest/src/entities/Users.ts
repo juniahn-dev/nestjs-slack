@@ -10,6 +10,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { ApiProperty } from '@nestjs/swagger';
 import { ChannelChats } from './ChannelChats';
 import { ChannelMembers } from './ChannelMembers';
 import { Channels } from './Channels';
@@ -21,12 +23,24 @@ import { Workspaces } from './Workspaces';
 @Index('email', ['email'], { unique: true })
 @Entity({ schema: 'sleact', name: 'users' })
 export class Users {
+  @ApiProperty({
+    example: 1,
+    description: 'user id',
+  })
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
+  @ApiProperty({
+    example: 'gud0415@gmail.com',
+    description: 'email',
+  })
   @Column('varchar', { name: 'email', unique: true, length: 30 })
   email: string;
 
+  @ApiProperty({
+    example: 'juniahn',
+    description: 'nickname',
+  })
   @Column('varchar', { name: 'nickname', length: 30 })
   nickname: string;
 
