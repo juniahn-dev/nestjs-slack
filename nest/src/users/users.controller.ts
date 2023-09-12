@@ -36,8 +36,8 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Sign up' })
   @Post()
-  join(@Body() body: JoinRequestDto) {
-    this.usersService.join(body.email, body.nickname, body.password);
+  async join(@Body() body: JoinRequestDto) {
+    await this.usersService.join(body.email, body.nickname, body.password);
   }
 
   @ApiOkResponse({

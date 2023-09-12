@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from 'src/entities/Users';
 import { Repository } from 'typeorm';
@@ -14,21 +14,21 @@ export class UsersService {
 
   async join(email: string, nickname: string, password: string) {
     if (!email) {
-      throw new Error('Is empty Email');
+      throw new HttpException('Is empty Email', 400);
     }
 
     if (!nickname) {
-      throw new Error('Is empty Nickname');
+      throw new HttpException('Is empty Nickname', 400);
     }
 
     if (!password) {
-      throw new Error('Is empty Password');
+      throw new HttpException('Is empty Password', 400);
     }
 
     const user = await this.usersRepository.findOne({ where: { email } });
 
     if (user) {
-      throw new Error('Already existed User');
+      throw new HttpException('Already existed User', 400);
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
