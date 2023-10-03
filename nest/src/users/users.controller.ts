@@ -5,6 +5,7 @@ import {
   Post,
   Req,
   Res,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { JoinRequestDto } from './dto/join.request.dto';
@@ -18,6 +19,7 @@ import {
 import { UserDto } from 'src/common/dto/user.dto';
 import { User } from 'src/common/decorators/user.decorator';
 import { UndefinedToNullInterceptor } from 'src/common/interceptors/undefinedToNull.interceptor';
+import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 
 @UseInterceptors(UndefinedToNullInterceptor)
 @ApiTags('USER')
@@ -45,6 +47,7 @@ export class UsersController {
     description: 'Success',
   })
   @ApiOperation({ summary: 'Login' })
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   login(@User() user) {
     return user;
