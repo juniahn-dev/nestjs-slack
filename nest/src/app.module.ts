@@ -54,7 +54,12 @@ import { WorkspacesModule } from './workspaces/workspaces.module';
       synchronize: false,
       logging: true,
     }),
-    TypeOrmModule.forFeature([Users]),
+    TypeOrmModule.forFeature([
+      Users,
+      Workspaces,
+      WorkspaceMembers,
+      ChannelMembers,
+    ]),
   ],
   controllers: [AppController],
   providers: [AppService, UsersService],
