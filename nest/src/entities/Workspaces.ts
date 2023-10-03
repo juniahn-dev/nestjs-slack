@@ -11,11 +11,14 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { IsNotEmpty, IsString } from 'class-validator';
+
+import { ApiProperty } from '@nestjs/swagger';
 import { Channels } from './Channels';
 import { DMs } from './DMs';
 import { Mentions } from './Mentions';
-import { WorkspaceMembers } from './WorkspaceMembers';
 import { Users } from './Users';
+import { WorkspaceMembers } from './WorkspaceMembers';
 
 @Index('name', ['name'], { unique: true })
 @Index('url', ['url'], { unique: true })
@@ -28,6 +31,12 @@ export class Workspaces {
   @Column('varchar', { name: 'name', unique: true, length: 30 })
   name: string;
 
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    example: 'slack@naver.com',
+    description: 'url address',
+  })
   @Column('varchar', { name: 'url', unique: true, length: 30 })
   url: string;
 
