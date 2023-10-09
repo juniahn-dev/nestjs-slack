@@ -1,16 +1,25 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
-import { ChannelMembers } from 'src/entities/ChannelMembers';
-import { DataSource } from 'typeorm';
-import { Users } from 'src/entities/Users';
-import { WorkspaceMembers } from 'src/entities/WorkspaceMembers';
+import { ChannelMembers } from '../entities/ChannelMembers';
+import { DataSource, Repository } from 'typeorm';
+import { Users } from '../entities/Users';
+import { WorkspaceMembers } from '../entities/WorkspaceMembers';
 import bcrypt from 'bcrypt';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UsersService {
-  constructor(private dataSource: DataSource) {}
+  constructor(
+    @InjectRepository(Users) private usersRepository: Repository<Users>,
+    private dataSource: DataSource,
+  ) {}
 
-  getUser() {}
+  async findByEmail(email: string) {
+    return this.usersRepository.findOne({
+      where: { email },
+      select: ['id', 'email', 'password'],
+    });
+  }
 
   async join(email: string, nickname: string, password: string) {
     const queryRunner = this.dataSource.createQueryRunner();
