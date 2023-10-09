@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
-import { ChannelMembers } from '../entities/ChannelMembers';
+import { ChannelMembers } from 'src/entities/ChannelMembers';
 import { DataSource, Repository } from 'typeorm';
-import { Users } from '../entities/Users';
-import { WorkspaceMembers } from '../entities/WorkspaceMembers';
+import { Users } from 'src/entities/Users';
+import { WorkspaceMembers } from 'src/entities/WorkspaceMembers';
 import bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 

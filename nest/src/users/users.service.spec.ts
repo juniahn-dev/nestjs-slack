@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { ChannelMembers } from '../entities/ChannelMembers';
-import { Users } from '../entities/Users';
+import { ChannelMembers } from 'src/entities/ChannelMembers';
+import { Users } from 'src/entities/Users';
 import { UsersService } from './users.service';
-import { WorkspaceMembers } from '../entities/WorkspaceMembers';
+import { WorkspaceMembers } from 'src/entities/WorkspaceMembers';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 class MockUserRepository {
