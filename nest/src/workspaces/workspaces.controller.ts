@@ -1,4 +1,11 @@
-import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 
 import { ApiTags } from '@nestjs/swagger';
 import { WorkspacesService } from './workspaces.service';
@@ -12,28 +19,45 @@ export class WorkspacesController {
   constructor(private workspacesService: WorkspacesService) {}
 
   @Get()
-  getMyWorkspaces(@User() user: Users) {
+  async getMyWorkspaces(@User() user: Users) {
     return this.workspacesService.findMyWorkspaces(user.id);
   }
 
   @Post()
-  createWorkspaces(@User() user: Users, @Body() body: CreateWorkspaceDto) {
+  async createWorkspace(@User() user: Users, @Body() body: CreateWorkspaceDto) {
     return this.workspacesService.createWorkspace(
       body.workspace,
       body.url,
-      body.id,
+      user.id,
     );
   }
 
   @Get(':url/members')
-  getAllMembersFromWorkspace() {}
+  async getWorkspaceMembers(@Param('url') url: string) {
+    return this.workspacesService.getWorkspaceMembers(url);
+  }
 
   @Post(':url/members')
-  inviteMembersFromWorkspace() {}
+  async createWorkspaceMembers(
+    @Param('url') url: string,
+    @Body('email') email,
+  ) {
+    return this.workspacesService.createWorkspaceMembers(url, email);
+  }
 
-  @Delete(':url/members')
-  kickMembersFromWorkspace() {}
+  @Get(':url/members/:id')
+  async getWorkspaceMember(
+    @Param('url') url: string,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.workspacesService.getWorkspaceMember(url, id);
+  }
 
-  @Get(':url/members')
-  getMemberInfoInWorkspace() {}
+  @Get(':url/users/:id')
+  async DEPRECATED_getWorkspaceUser(
+    @Param('url') url: string,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.workspacesService.getWorkspaceMember(url, id);
+  }
 }
