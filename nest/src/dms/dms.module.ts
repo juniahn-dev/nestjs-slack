@@ -1,9 +1,15 @@
+import { DMs } from 'src/entities/DMs';
+import { DMsController } from './dms.controller';
+import { DMsService } from './dms.service';
+import { EventsModule } from 'src/events/events.module';
 import { Module } from '@nestjs/common';
-import { DmsService } from './dms.service';
-import { DmsController } from './dms.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Users } from 'src/entities/Users';
+import { Workspaces } from 'src/entities/Workspaces';
 
 @Module({
-  providers: [DmsService],
-  controllers: [DmsController]
+  imports: [TypeOrmModule.forFeature([DMs, Users, Workspaces]), EventsModule],
+  controllers: [DMsController],
+  providers: [DMsService],
 })
 export class DmsModule {}
